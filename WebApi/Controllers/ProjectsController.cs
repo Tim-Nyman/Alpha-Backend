@@ -1,5 +1,6 @@
 ﻿using Business.Models;
 using Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -47,13 +48,17 @@ public class ProjectsController(IProjectService projectService) : ControllerBase
             return BadRequest(ModelState);
 
         var result = await _projectService.UpdateProjectAsync(projectForm);
-        return result ? Ok() : NotFound("Failed to update project.");
+        return result 
+            ? Ok("Project updated successfully.") 
+            : NotFound("Failed to update project.");
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
         var result = await _projectService.DeleteProjectAsync(id);
-        return result ? Ok() : NotFound();
+        return result 
+            ? Ok("Project successfully deleted.") 
+            : NotFound("Project not found.");
     }
 }

@@ -4,6 +4,7 @@ using Data.Repositories;
 using Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebApi.MiddleWares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,6 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 
 
 
-
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 builder.Services.AddIdentity<UserEntity, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()
@@ -40,6 +40,8 @@ app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Api"));
 app.UseHttpsRedirection();
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
+app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
