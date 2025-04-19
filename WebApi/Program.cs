@@ -39,11 +39,13 @@ app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Api"));
 
 app.UseHttpsRedirection();
 
-app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+app.UseCors(x => x.WithOrigins("https://lemon-moss-0f6d64a03.6.azurestaticapps.net",
+    "http://localhost:5173/").AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
 app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

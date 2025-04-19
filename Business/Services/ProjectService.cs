@@ -26,7 +26,6 @@ public class ProjectService(ProjectRepository projectRepository) : IProjectServi
         var project = ProjectsFactory.ToEntity(projectForm);
         project.StatusId = defaultStatus;
 
-        //Try Catch i och med att man skickar in något i databasen? eller räcker det med try catch i BaseRepositoryn?
         var result = await _projectRepository.AddAsync(project);
         return result;
     }
